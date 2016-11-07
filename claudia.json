@@ -1,0 +1,11 @@
+{
+  "lambda": {
+    "role": "dante_personalization_bot-executor",
+    "name": "dante_personalization_bot",
+    "region": "us-east-1"
+  },
+  "api": {
+    "id": "vdipa48k64",
+    "module": "bot"
+  }
+}

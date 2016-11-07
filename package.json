@@ -2,7 +2,7 @@
   "name": "dante_personalization_bot",
   "version": "1.0.0",
   "description": "a bot to enable customers to personalize their stay",
-  "main": "index.js",
+  "main": "bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
