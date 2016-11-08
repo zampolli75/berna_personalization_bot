@@ -13,6 +13,9 @@ module.exports = botBuilder(message => {
         .addImage('https://claudiajs.com/assets/claudiajs.png')
         .addButton('No I want beer!', 'https://www.birramoretti.com')
         .addButton('Go to Github', 'https://github.com/claudiajs/claudia')
+       .addBubble('For your Comfort', 'Choose one of these options to make your stay more comfortable')
+        .addImage('http://dds.cct.lsu.edu/wwwgp/p.jpeg')
+        .addButton('Chose this Category', 'COMFORT')
       .get();
   }
 });
