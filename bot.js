@@ -3,17 +3,25 @@ const fbTemplate = botBuilder.fbTemplate;
 
 module.exports = botBuilder(message => {
   if (message.type === 'facebook') {
-    const generic = new fbTemplate.Generic();
+    const beverage = new fbTemplate.Generic();
 
-    return generic
-      .addBubble('Claudia.js', 'Deploy Node.js microservices to AWS easily')
+    return beverage
+      .addBubble('Soft Drinks', 'Alcohol free drinks')
+        .addUrl('https://www.coca-cola.com/')
+        .addImage('https://claudiajs.com/assets/claudiajs.png')
+        .addButton('No I want beer!', 'https://www.birramoretti.com')
+        .addButton('Go to Github', 'https://github.com/claudiajs/claudia')
+
+      .addBubble('Alocholic beverages')
+        .addUrl('https://www.birramoretti.com')
+        .addImage('https://claudiajs.com/assets/claudia-bot-builder-video.jpg')
+        .addButton('Yeah, beer!', 'Are you sure you dont want milk?')
+
+      .addBubble('Milk', 'No alochol but a lot of calcium!')
         .addUrl('https://claudiajs.com')
         .addImage('https://claudiajs.com/assets/claudiajs.png')
-        .addButton('Say hello', 'HELLO')
-        .addButton('Go to Github', 'https://github.com/claudiajs/claudia')
-      .addBubble('Claudia Bot Builder')
-        .addImage('https://claudiajs.com/assets/claudia-bot-builder-video.jpg')
-        .addButton('Go to Github', 'https://github.com/claudiajs/claudia-bot-builder')
+        .addButton('No I want beer', 'https://www.birramoretti.com')
+        .addButton('Pick your favorite cereals', 'https://en.wikipedia.org/wiki/Cereal')
       .get();
   }
 });
