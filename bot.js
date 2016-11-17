@@ -29,18 +29,24 @@ function personalize() {
     .addBubble('Drinks')
       .addImage('https://s3.amazonaws.com/dantemessengerbot/Images/drinks.jpg')
       .addButton('Water', 'WATER')
-      .addButton('Orange San Pellegrino', 'ORANGESAN')
+      .addButton('Orange Soft Dring', 'ORANGESAN')
       .addButton('Others', 'DRINKOTHERS')
     .addBubble('Pillow Type')
       .addImage('https://s3.amazonaws.com/dantemessengerbot/Images/pillowtype.jpg')
-      .addButton('Goose pillow', 'GOOSEPILLOW')
-      .addButton('Pure natural latex pillow', 'PURENATLATEXPILLOW')
+      .addButton('Goose', 'GOOSEPILLOW')
+      .addButton('Latex', 'PURENATLATEXPILLOW')
+      .addButton('Others', 'PILLOWOTHERS')
     .addBubble('Temperature')
       .addImage('https://s3.amazonaws.com/dantemessengerbot/Images/temperature.gif')
       .addButton('22¡C/72¡F', '22CTEMP')
       .addButton('21¡C/70¡F', '21CTEMP')
+      .addButton('Others', 'TEMPOTHERS')
+    .addBubble('Bed Type')
+      .addImage('https://s3.amazonaws.com/dantemessengerbot/Images/bed.jpg')
+      .addButton('Nordic', 'NORDIC')
+      .addButton('Mediterranean', 'MEDITERRANEAN')
+      .addButton('Others', 'BEDOTHERS')
     .get()
-    // .addBubble('Bed Type')
     // .addBubble('Pillows Extra')
     // .addBubble('Towels Extra')
     // .addBubble('Toilet Paper')
@@ -49,17 +55,19 @@ function personalize() {
     // .addBubble('Welcome Basket')
 };
 
+
+
 function callUs() {
   return {
     "attachment":{
       "type":"template",
          "payload":{
             "template_type":"button",
-            "text":"Need further assistance? Talk to a representative",
+            "text":"We speak English, Italian, Spanish, French, and German.",
             "buttons":[
                {
                   "type":"phone_number",
-                  "title":"Call Representative",
+                  "title":"Call Us",
                   "payload":"+15105551234"
                }
             ]
@@ -67,28 +75,37 @@ function callUs() {
     }}};
 
 
-function bathAndLinens() {
-    const bathAndLinens = new fbTemplate.Generic();
-    return bathAndLinens
-      .addBubble('Bath and Linens')
-        .addImage('https://images.victorianplumbing.co.uk/images/Premier-High-Gloss-MDF-Front-Bath-Panels-White-5-x-Size-Options-l.jpg')
-        .addButton('Go to Bath and Linens Category', 'Baths and Linen')
-      .get()
-};
 
 
-const bot = botBuilder(message => {
+
+// const bot = botBuilder(message => {
   
-  // if (!message.postback) {
-  //   return [
-  //   message.postback,
-  //   mainMenu()
-  //   ]
-  // };
+//   if (message.text === 'Main') {
+//     return [
+//       'Welcome to Hotel Dante. It is our pleasure to assist you today.',
+//       mainMenu()
+//     ]
+//   }
 
+//   if (message.text === 'PERSONALIZE') {
+//     return personalize()
+//   }
+
+//   if (message.text === 'BATHLINEN') {
+//     return bathAndLinens()
+//   }
+
+//   if (message.text === 'CALLUS') {
+//     return callUs()
+//   }
+
+// });
+
+const bot = function botBuilder(message) {
+  
   if (message.text === 'Main') {
     return [
-      'Welcome to Hotel Dante. It is our pleasure to assist you today',
+      'Welcome to Hotel Dante. It is our pleasure to assist you today.',
       mainMenu()
     ]
   }
@@ -105,7 +122,21 @@ const bot = botBuilder(message => {
     return callUs()
   }
 
-});
+};
 
 
 module.exports = bot
+
+
+
+// function welcomeButton() {
+// return {
+//     "setting_type":"call_to_actions",
+//     "thread_state":"new_thread",
+//     "call_to_actions":[
+//       {
+//         "payload":"WELCOME"
+//       }
+//     ]
+//   }
+// };
