@@ -1,5 +1,7 @@
 const botBuilder = require('claudia-bot-builder');
 const fbTemplate = botBuilder.fbTemplate;
+const 
+
 
 
 
@@ -30,7 +32,7 @@ function personalize() {
       .addImage('https://s3.amazonaws.com/dantemessengerbot/Images/drinks.jpg')
       .addButton('Water', 'WATER')
       .addButton('Orange Soft Dring', 'ORANGESAN')
-      .addButton('Others', 'DRINKOTHERS')
+      .addButton('Others', 'OTHERDRINKS')
     .addBubble('Pillow Type')
       .addImage('https://s3.amazonaws.com/dantemessengerbot/Images/pillowtype.jpg')
       .addButton('Goose', 'GOOSEPILLOW')
@@ -56,6 +58,24 @@ function personalize() {
 };
 
 
+function otherDrinks() {
+const otherDrinks = new fbTemplate.Text('Select among our selection of drinks');
+    return otherDrinks
+      .addQuickReply('Fruit juice', 'STARK')
+      .addQuickReply('Coca Cola', 'LANNISTER')
+      .addQuickReply('Coca Cola light', 'TARGARYEN')
+      .addQuickReply('Our kettle', 'OTHER')
+      .addQuickReply('Soy milk', 'OTHER')
+      .addQuickReply('Beer', 'OTHER')
+      .addQuickReply('Prosecco White Wine', 'OTHER')
+      .addQuickReply('Rice milk', 'OTHER')
+      .addQuickReply('Sipping Champagne', 'OTHER')
+      .addQuickReply('Belvedere, IGT Col. del Milanese (70cl)', 'OTHER')
+      .get()
+};
+
+
+
 
 function callUs() {
   return {
@@ -72,7 +92,7 @@ function callUs() {
                }
             ]
          }
-    }}};
+  }}};
 
 
 
@@ -101,7 +121,7 @@ function callUs() {
 
 // });
 
-const bot = function botBuilder(message) {
+const bot = botBuilder(message => {
   
   if (message.text === 'Main') {
     return [
@@ -122,7 +142,11 @@ const bot = function botBuilder(message) {
     return callUs()
   }
 
-};
+  if (message.text === 'OTHERDRINKS') {
+    return otherDrinks()
+  }
+
+});
 
 
 module.exports = bot
@@ -140,3 +164,19 @@ module.exports = bot
 //     ]
 //   }
 // };
+
+
+
+  // sendRequest(body, endpoint, method) {
+  //   endpoint = endpoint || 'messages';
+  //   method = method || 'POST';
+  //   return fetch(`https://graph.facebook.com/v2.6/me/${endpoint}?access_token=${this.accessToken}`, {
+  //     method,
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(body)
+  //   })
+  //   .then(res => res.json())
+  //   .catch(err => console.log(`Error sending message: ${err}`));
+  // }

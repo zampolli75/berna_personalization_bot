@@ -9,6 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "claudia-bot-builder": "^2.4.0"
+    "claudia-bot-builder": "^2.5.1"
+  },
+  "devDependencies": {
+    "claudia": "^2.1.5"
   }
 }
