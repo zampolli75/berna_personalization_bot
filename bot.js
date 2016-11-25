@@ -6,22 +6,38 @@ const fbTemplate = botBuilder.fbTemplate;
 function mainMenu() {
   const mainMenu = new fbTemplate.Generic();
   return mainMenu
-    .addBubble('Reservations')
-      .addImage('https://s3.amazonaws.com/dantemessengerbot/Images/reservations.jpg')
-      .addButton('Make Reservation', 'https://securebooking.hotel-luganodante.com/reservation_hotel.htm')
-      .addButton('Manage Reservations', 'YOURRESERVATION')
-      .addButton('Modify Reservation', 'MODRESERVATION')
-    .addBubble('Personalize your Stay')
-      .addImage('https://s3.amazonaws.com/dantemessengerbot/Images/personalize.jpg')
-      .addButton('Confirm Previous Personalization', 'CONFIRMPREVPERSO')
+    .addBubble('Menu')
+      .addImage('https://s3.amazonaws.com/dantemessengerbot/Images/menu.jpg')
+      .addButton('Reservations', 'RESERVATIONS')
       .addButton('Personalize', 'PERSONALIZE')
-    .addBubble('Contact Us')
-      .addImage('https://s3.amazonaws.com/dantemessengerbot/Images/contactus.jpg')
-      .addButton('Where We Are', 'BATHLINEN')
-      .addButton('Email Us', 'PERSONALIZE')
-      .addButton('Call Us', 'CALLUS')
+      .addButton('Contact Us', 'CONTACTUS')
     .get()
 };
+
+function reservations() {
+  const reservations = new fbTemplate.Generic();
+  return reservations
+    .addBubble('Reservations')
+      .addImage('https://s3.amazonaws.com/dantemessengerbot/Images/reservations.jpg')
+      .addButton('Make Reservation', 'MAKERESERVATION')
+      .addButton('Manage Reservation', 'YOURRESERVATION')
+      .addButton('Check In', 'CHECKIN')
+    .get()
+};
+
+function contactUs() {
+  const contactUs = new fbTemplate.Generic();
+  return contactUs
+    .addBubble('Reservations')
+      .addImage('https://s3.amazonaws.com/dantemessengerbot/Images/contactus.jpg')
+      .addButton('Call Us', 'CALLUS')
+      .addButton('Email Us', 'EDU')
+      .addButton('Where Are We', 'WHEREWEARE')
+    .get()
+};
+
+
+
 
 function personalize() {
   const personalize = new fbTemplate.Generic();
@@ -112,6 +128,52 @@ function callUs() {
   } 
 };
 
+
+function whereWeAre() {
+  return {
+    "attachment":{
+    "type":"template",
+    "payload":{
+    "template_type":"generic",
+      "elements":[
+        {
+        "title":"Where We Are",
+        "item_url":"https://www.google.com/maps/place/Hotel+Berna/@45.4826686,9.2012447,17z/data=!3m1!4b1!4m5!3m4!1s0x4786c6c5a5ea63e5:0x74ea125c3395e1ac!8m2!3d45.4826686!4d9.2034387",
+        "image_url":"https://s3.amazonaws.com/dantemessengerbot/Images/mappa.png"
+        }
+        ]
+    }
+    }
+}};
+
+
+
+
+
+
+
+
+// function mailUs() {
+//   return {
+//     "attachment":{
+//       "type":"template",
+//          "payload":{
+//             "template_type":"button",
+//             "text":"We speak English, Italian, Spanish, French, and German.",
+//             "buttons":[
+//             {
+//               "type":"web_url",
+//               "url":"mailto:jrod122@lsu.edu",
+//               "title":"Mail Us",
+//               "webview_height_ratio": "compact"
+//             }
+//             ]
+//          }
+//     }
+//   } 
+// };
+
+
 function otherBeds() {
   return {
       "attachment": {
@@ -120,40 +182,40 @@ function otherBeds() {
               "template_type": "list",
               "top_element_style": "compact",
               "elements": [
-                  {
-                      "title": "Nordic",
-                      "image_url": "https://s3.amazonaws.com/dantemessengerbot/Images/drinks.jpg",
-                      "subtitle": "Minimal and neutral",
-                      "buttons": [
-                        {
-                          "title": "Add",
-                          "type": "postback",
-                          "payload": "ADDNORDIC"
-                        }
-                      ]                
-                  },
-                  {
-                      "title": "Mediterranean",
-                      "image_url": "https://s3.amazonaws.com/dantemessengerbot/Images/drinks.jpg",
-                      "subtitle": "The colour of latin Europe",
-                     "buttons": [
-                        {
-                          "title": "Add",
-                          "type": "postback",
-                          "payload": "ADDMEDITERRANEAN"
-                        }
-                      ]
-                  },
-              ],
-               "buttons": [
-                  {
-                      "title": "Placeholder",
+                {
+                  "title": "Nordic",
+                  "image_url": "https://s3.amazonaws.com/dantemessengerbot/Images/drinks.jpg",
+                  "subtitle": "Minimal and neutral",
+                  "buttons": [
+                    {
+                      "title": "Add",
                       "type": "postback",
-                      "payload": "payload"                        
-                  }
-              ]  
-          }
-      }
+                      "payload": "ADDNORDIC"
+                    }
+                   ]                
+                },
+                {
+                  "title": "Mediterranean",
+                  "image_url": "https://s3.amazonaws.com/dantemessengerbot/Images/drinks.jpg",
+                  "subtitle": "The colour of latin Europe",
+                  "buttons": [
+                    {
+                      "title": "Add",
+                      "type": "postback",
+                      "payload": "ADDMEDITERRANEAN"
+                    }
+                  ]
+                },
+            ],
+             "buttons": [
+                {
+                    "title": "Placeholder",
+                    "type": "postback",
+                    "payload": "payload"                        
+                }
+            ]  
+        }
+    }
   }
 };
 
@@ -175,16 +237,28 @@ const bot = botBuilder(message => {
     ]
   }  
 
-  if (message.text === 'PERSONALIZE') {
+  if (message.text === 'Help') {
+    return 'Placeholder'
+  }
+
+  if (message.text === 'RESERVATIONS') {
+    return reservations()
+  }
+
+  if (message.text === 'PERSONALIZE'  || message.text === 'Personalize') {
     return personalize()
+  }
+
+  if (message.text === 'CALLUS') {
+    return callUs()
   }
 
   if (message.text === 'BATHLINEN') {
     return bathAndLinens()
   }
 
-  if (message.text === 'CALLUS') {
-    return callUs()
+  if (message.text === 'CONTACTUS') {
+    return contactUs()
   }
 
   if (message.text === 'OTHERDRINKS') {
@@ -203,7 +277,34 @@ const bot = botBuilder(message => {
     return otherBeds()
   }
 
+  if (message.text === 'WHEREWEARE') {
+    return whereWeAre()
+  }
+
+
 });
 
 module.exports = bot
 
+
+
+
+
+
+// function whereWeAre() {
+//   return {
+//     "attachments": [
+//       {
+//         "title": "Facebook HQ",
+//         "url": "https://www.facebook.com/l.php?u=https%....5-7Ocxrmg",
+//         "type": "location",
+//         "payload": {
+//         "coordinates": {
+//                     "lat": 37.483872693672,
+//                     "long": -122.14900441942
+//                   }
+//                 }
+//               }
+//             ]
+//           }
+// };
