@@ -1,5 +1,21 @@
 const botBuilder = require('claudia-bot-builder');
 const fbTemplate = botBuilder.fbTemplate;
+ 
+
+// const request = originalApiRequest
+
+// api.post('/facebook', request => {
+//   let arr = [].concat.apply([], request.body.entry.map(entry => entry.messaging));
+//   let fbHandle = parsedMessage => {
+//     if (parsedMessage) {
+//       var recipient = parsedMessage.sender;
+
+//       return Promise.resolve(parsedMessage).then(parsedMessage => bot(parsedMessage, request))
+//         .then(botResponse => responder(recipient, botResponse, request.env.facebookAccessToken))
+//         .catch(logError);
+//       }
+//   }
+// };
 
 
 
@@ -219,10 +235,8 @@ function otherBeds() {
   }
 };
 
-
-const bot = botBuilder(message => {
-  
-  if (message.text === 'Menu') {
+const bot = botBuilder(function(message, originalApiRequest){
+if (message.text === 'Menu') {
     return [
       mainMenu()
     ]
@@ -279,10 +293,11 @@ const bot = botBuilder(message => {
 
   if (message.text === 'WHEREWEARE') {
     return whereWeAre()
-  }
-
+  }  
 
 });
+
+
 
 module.exports = bot
 
