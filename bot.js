@@ -1,22 +1,42 @@
 const botBuilder = require('claudia-bot-builder');
 const fbTemplate = botBuilder.fbTemplate;
- 
+const rp = require('minimal-request-promise') 
 
-// const request = originalApiRequest
 
-// api.post('/facebook', request => {
-//   let arr = [].concat.apply([], request.body.entry.map(entry => entry.messaging));
-//   let fbHandle = parsedMessage => {
-//     if (parsedMessage) {
-//       var recipient = parsedMessage.sender;
+  // api.post('/facebook', request => {
+  //   let arr = [].concat.apply([], request.body.entry.map(entry => entry.messaging));
+  //   let fbHandle = parsedMessage => {
+  //     if (parsedMessage) {
+  //       var recipient = parsedMessage.sender;
 
-//       return Promise.resolve(parsedMessage).then(parsedMessage => bot(parsedMessage, request))
-//         .then(botResponse => responder(recipient, botResponse, request.env.facebookAccessToken))
-//         .catch(logError);
-//       }
-//   }
-// };
+  //       return Promise.resolve(parsedMessage).then(parsedMessage => bot(parsedMessage, request))
+  //         .then(botResponse => responder(recipient, botResponse, request.env.facebookAccessToken))
+  //         .catch(logError);
+  //     }
+  //   };
 
+  //   return Promise.all(arr.map(message => fbHandle(parser(message))))
+  //     .then(() => 'ok');
+  // });
+
+
+function chatRappresentative (originalApiRequest) {
+  var fbAccessToken = originalApiRequest.env.facebookAccessToken;
+  var message = "Attento";
+  var recipient = 1218905758170540;
+  const options = {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      recipient: {
+        id: recipient
+      },
+      message: message
+    })
+  }
+  return rp.post(`https://graph.facebook.com/v2.6/me/messages?access_token=${fbAccessToken}`, options);
+};
 
 
 function mainMenu() {
@@ -47,11 +67,10 @@ function contactUs() {
     .addBubble('Reservations')
       .addImage('https://s3.amazonaws.com/dantemessengerbot/Images/contactus.jpg')
       .addButton('Call Us', 'CALLUS')
-      .addButton('Email Us', 'EDU')
+      .addButton('Contact Concierge', 'CONCIERGE')
       .addButton('Where Are We', 'WHEREWEARE')
     .get()
 };
-
 
 
 
@@ -252,7 +271,12 @@ if (message.text === 'Menu') {
   }  
 
   if (message.text === 'Help') {
-    return 'Placeholder'
+    return [
+      'Placeholder',
+      message.sender,
+      //originalApiRequest.env.facebookAccessToken,
+      chatRappresentative(originalApiRequest)
+    ]
   }
 
   if (message.text === 'RESERVATIONS') {
@@ -266,6 +290,14 @@ if (message.text === 'Menu') {
   if (message.text === 'CALLUS') {
     return callUs()
   }
+
+  if (message.text === "CONCIERGE") {
+    return [
+    "Hi, this is the concierge of Dante Hotel.",
+    "Please, tell me what you need",
+    "I will get back to you very shortly."
+    ]
+  } 
 
   if (message.text === 'BATHLINEN') {
     return bathAndLinens()
