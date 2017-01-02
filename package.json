@@ -11,7 +11,8 @@
   "dependencies": {
     "claudia-bot-builder": "^2.5.1",
     "request": "",
-    "dynasty": ""
+    "dynasty": "0.2.6",
+    "lodash": ""
   },
   "devDependencies": {
     "claudia": "^2.1.5"   

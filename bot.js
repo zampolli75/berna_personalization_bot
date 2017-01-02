@@ -1,7 +1,12 @@
 const botBuilder = require('claudia-bot-builder');
 const fbTemplate = botBuilder.fbTemplate;
 const rp = require('minimal-request-promise') 
+const _ = require('lodash')
 
+var DatabaseHandler = require('./databasehandler.js'); 
+var databaseHandler = new DatabaseHandler();
+
+databaseHandler.createBernaTable();
 
   // api.post('/facebook', request => {
   //   let arr = [].concat.apply([], request.body.entry.map(entry => entry.messaging));
@@ -19,8 +24,8 @@ const rp = require('minimal-request-promise')
   //     .then(() => 'ok');
   // });
 
-
-function chatRappresentative (originalApiRequest) {
+//postback 'help'
+function chatRepresentative (originalApiRequest) {
   var fbAccessToken = originalApiRequest.env.facebookAccessToken;
   var message = "Attento";
   var recipient = 1218905758170540;
@@ -183,11 +188,6 @@ function whereWeAre() {
 
 
 
-
-
-
-
-
 // function mailUs() {
 //   return {
 //     "attachment":{
@@ -255,7 +255,23 @@ function otherBeds() {
 };
 
 const bot = botBuilder(function(message, originalApiRequest){
-if (message.text === 'Menu') {
+
+
+ if (message.text === 'Read') {
+    var items = databaseHandler.readBernaData(message.sender)
+    return items
+  }
+
+
+ if (message.text === 'Readberna') {
+    return databaseHandler.readBernaData(message.sender)
+  }
+
+ if (message.text === 'Readberna2') {
+    return databaseHandler.readBernaData2(message.sender)
+  }
+
+  if (message.text === 'Menu') {
     return [
       mainMenu()
     ]
@@ -275,7 +291,7 @@ if (message.text === 'Menu') {
       'Placeholder',
       message.sender,
       //originalApiRequest.env.facebookAccessToken,
-      chatRappresentative(originalApiRequest)
+      chatRepresentative(originalApiRequest)
     ]
   }
 
@@ -325,10 +341,19 @@ if (message.text === 'Menu') {
 
   if (message.text === 'WHEREWEARE') {
     return whereWeAre()
-  }  
+  }
+
+  if (message.text === 'WATER'){
+    var items = databaseHandler.readBernaData(message.sender)
+    var itemsadd = _.concat(items, "Water")
+    return databaseHandler.storeBernaData(message.sender, itemsadd)
+  }
+  if (message.text === 'PURENATLATEXPILLOW')
+    return databaseHandler.storeBernaData(message.sender, ['Latex','Hello'])
+  if (message.text === 'ORANGESAN')
+    return databaseHandler.storeBernaData(message.sender, 'Orange')
 
 });
-
 
 
 module.exports = bot
