@@ -114,9 +114,9 @@ function personalize() {
 function otherDrinks() {
 const otherDrinks = new fbTemplate.Text('Select among our selection of drinks');
     return otherDrinks
-      .addQuickReply('Fruit juice', 'STARK')
-      .addQuickReply('Coca Cola', 'LANNISTER')
-      .addQuickReply('Coca Cola light', 'TARGARYEN')
+      .addQuickReply('Fruit juice', 'FRUITJUICE')
+      .addQuickReply('Coca Cola', 'COKE')
+      .addQuickReply('Coca Cola light', 'LIGHTCOKE')
       .addQuickReply('Our kettle', 'OTHER')
       .addQuickReply('Soy milk', 'OTHER')
       .addQuickReply('Beer', 'OTHER')
@@ -341,18 +341,18 @@ const bot = botBuilder(function(message, originalApiRequest){
     return whereWeAre()
   }
 
-  if (message.text === 'WATER'){
+  if (_.includes(['WATER', 'FRUITJUICE', 'COKE', 'LIGHTCOKE'], message.text)){
     var items = databaseHandler.readBernaData(message.sender)
     return items.then(function(data) {
-      var items = _.concat(data, 'Water')
+      var items = _.concat(data, message.text)
       return items
     })
     .then(function(items) {
       return databaseHandler.storeBernaData(message.sender, items)
     })
-    .then(function() {return '\'Water\' added to your personalizations'})
+    .then(function() {return '\''+message.text+'\'' + ' has been added to your personalizations'})
     .catch(function(err) {
-      console.log(message.sender + ': Could not store the user preference')
+      console.log(message.sender + ' : ' + err)
     })
   }
 
