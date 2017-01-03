@@ -1,20 +1,41 @@
 'use strict';
 module.change_code = 1;
+const _ = require('lodash')
+
 //var config = require('./config.js');
+
+
+
+// var AWS = require("aws-sdk");
+
+// AWS.config.update({
+//   region: "us-west-2",
+//   endpoint: "http://localhost:8000"
+// });
+
+// var docClient = new AWS.DynamoDB.DocumentClient();
+// var table = 'berna_personalization';
+
+
+
+
+
+// docClient.put(params, function(err, data) {
+//     if (err) {
+//         console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+//     } else {
+//         console.log("Added item:", JSON.stringify(data, null, 2));
+//     }
+// });
+
+
 
 var DATA_TABLE_NAME = 'berna_personalization';
 
 
-
-// var credentials = {
-//   region: 'us-east-1',
-//   accessKeyId: config.accessKeyId,
-//   secretAccessKey: config.secretAccessKey
-// };
-
 var credentials = {
   region: 'us-east-1',
-  accessKeyId: ""
+  accessKeyId: "",
   secretAccessKey: ""
 };
 
@@ -40,11 +61,11 @@ DatabaseHandler.prototype.createBernaTable = function() {
 	});
 };
 
-DatabaseHandler.prototype.storeBernaData = function(userId, data) {
+DatabaseHandler.prototype.storeBernaData = function(userId, itemsData) {
   console.log('writing preferences to database for user ' + userId);
   return bernaTable().insert({
     userId: userId,
-    data: 2ce81bb3d50511c913da703826768fe4(data),
+    data: JSON.stringify(itemsData),
   }).catch(function(error) {
     console.log(error);
   });
@@ -62,7 +83,9 @@ DatabaseHandler.prototype.readBernaData = function(userId) {
   });
 };
 
-DatabaseHandler.prototype.readBernaData2 = function(userId) {
+
+
+DatabaseHandler.prototype.readBernaDataNoParse = function(userId) {
   console.log('reading berna personalization with user id of : ' + userId);
   return bernaTable().find(userId)
     .then(function(result) {

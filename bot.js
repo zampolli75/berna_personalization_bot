@@ -24,6 +24,7 @@ databaseHandler.createBernaTable();
   //     .then(() => 'ok');
   // });
 
+
 //postback 'help'
 function chatRepresentative (originalApiRequest) {
   var fbAccessToken = originalApiRequest.env.facebookAccessToken;
@@ -267,9 +268,6 @@ const bot = botBuilder(function(message, originalApiRequest){
     return databaseHandler.readBernaData(message.sender)
   }
 
- if (message.text === 'Readberna2') {
-    return databaseHandler.readBernaData2(message.sender)
-  }
 
   if (message.text === 'Menu') {
     return [
@@ -309,9 +307,9 @@ const bot = botBuilder(function(message, originalApiRequest){
 
   if (message.text === "CONCIERGE") {
     return [
-    "Hi, this is the concierge of Dante Hotel.",
-    "Please, tell me what you need",
-    "I will get back to you very shortly."
+    'Hi, this is the concierge of Dante Hotel.',
+    'Please, tell me what you need',
+    'I will get back to you very shortly.'
     ]
   } 
 
@@ -345,13 +343,24 @@ const bot = botBuilder(function(message, originalApiRequest){
 
   if (message.text === 'WATER'){
     var items = databaseHandler.readBernaData(message.sender)
-    var itemsadd = _.concat(items, "Water")
-    return databaseHandler.storeBernaData(message.sender, itemsadd)
+    return items.then(function(data) {
+      var items = _.concat(data, 'Water')
+      return items
+    })
+    .then(function(items) {
+      return databaseHandler.storeBernaData(message.sender, items)
+    })
+    .then(function() {return '\'Water\' added to your personalizations'})
+    .catch(function(err) {
+      console.log(message.sender + ': Could not store the user preference')
+    })
   }
+
   if (message.text === 'PURENATLATEXPILLOW')
     return databaseHandler.storeBernaData(message.sender, ['Latex','Hello'])
   if (message.text === 'ORANGESAN')
     return databaseHandler.storeBernaData(message.sender, 'Orange')
+  
 
 });
 
