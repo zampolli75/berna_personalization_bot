@@ -86,7 +86,7 @@ function personalize() {
     .addBubble('Drinks')
       .addImage('https://s3.amazonaws.com/dantemessengerbot/Images/drinks.jpg')
       .addButton('Water', 'WATER')
-      .addButton('Orange Soft Dring', 'ORANGESAN')
+      .addButton('Orange Soft Drink', 'ORANGESAN')
       .addButton('Others', 'OTHERDRINKS')
     .addBubble('Pillow Type')
       .addImage('https://s3.amazonaws.com/dantemessengerbot/Images/pillowtype.jpg')
